@@ -26,6 +26,12 @@ class ExchangeRateHistory
      */
     private $rate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Currency", inversedBy="exchangeRateHistory")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $currency;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +57,18 @@ class ExchangeRateHistory
     public function setRate(float $rate): self
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(?Currency $currency): self
+    {
+        $this->currency = $currency;
 
         return $this;
     }
