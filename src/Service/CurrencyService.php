@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Currency;
 use App\Entity\ExchangeRateHistory;
+use App\Repository\CurrencyRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -13,14 +14,20 @@ class CurrencyService
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var CurrencyRepository
+     */
+    private $currencyRepository;
 
     /**
      * CurrencyService constructor.
      * @param EntityManagerInterface $entityManager
+     * @param CurrencyRepository $currencyRepository
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, CurrencyRepository $currencyRepository)
     {
         $this->entityManager = $entityManager;
+        $this->currencyRepository = $currencyRepository;
     }
 
     public function create(string $name, string $code) : Currency
@@ -45,5 +52,11 @@ class CurrencyService
         $this->entityManager->flush();
         return $exchangeRate;
     }
+
+    public function getList($limit = null, $offset = null): array
+    {
+        return $this->currencyRepository->findBy([], [], $limit, $offset);
+    }
+
 
 }

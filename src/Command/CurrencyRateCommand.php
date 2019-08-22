@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class CurrencyRateCommand extends Command
 {
     protected static $defaultName = 'app:currency-rate';
+    const CURRENCY_TABLE = 'a';
 
     /**
      * @var CurrencyService
@@ -56,16 +57,18 @@ class CurrencyRateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
+
         /** @var Currency[] $currencies */
         $currencies = $this->currencyService->getList();
         $date = new DateTime();
         $date->sub(new DateInterval('P1D'));
         $formattedDate = $date->format('Y-m-d');
-        $io = new SymfonyStyle($input, $output);
+        $table = self::CURRENCY_TABLE;
 
         foreach($currencies as $currency) {
             $code = $currency->getCode();
-            $result = $this->http->get($this->params->get('nbp_url')."/$code/$formattedDate");
+            $result = $this->http->get($this->params->get('nbp_url')."/$table/$code/$formattedDate");
             $effectiveDate = new DateTime($result['rates']['0']['effectiveDate']);
             $rate = $result['rates']['0']['mid'];
             $this->currencyService->rate($effectiveDate, $rate, $currency);

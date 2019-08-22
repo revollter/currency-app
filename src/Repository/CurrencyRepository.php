@@ -19,6 +19,12 @@ class CurrencyRepository extends ServiceEntityRepository
         parent::__construct($registry, Currency::class);
     }
 
+    public function findAllQuery()
+    {
+        $qb = $this->createQueryBuilder('c')->orderBy('c.id', 'desc');
+        return $qb->getQuery();
+    }
+
     // /**
     //  * @return Currency[] Returns an array of Currency objects
     //  */

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Waluta</th>
+                <th>Symbol</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for currency in pagination %}
+            <tr>
+                <td>{{ currency.name }}</td>
+                <td>{{ currency.code | upper }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation ml-auto">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

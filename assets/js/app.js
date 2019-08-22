@@ -9,6 +9,8 @@
 require('bootstrap/dist/css/bootstrap.min.css');
 require('../css/app.css');
 require('bootstrap/dist/js/bootstrap.min');
+require('bootstrap-select/dist/css/bootstrap-select.min.css');
+require('bootstrap-select/dist/js/bootstrap-select.min');
 var $ = require('jquery');
 window.$ = window.jQuery = $;
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
