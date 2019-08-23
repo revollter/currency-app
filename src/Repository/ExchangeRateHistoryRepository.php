@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Currency;
 use App\Entity\ExchangeRateHistory;
+use App\Form\Model\CurrencySearchModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,22 +21,26 @@ class ExchangeRateHistoryRepository extends ServiceEntityRepository
         parent::__construct($registry, ExchangeRateHistory::class);
     }
 
-    // /**
-    //  * @return ExchangeRateHistory[] Returns an array of ExchangeRateHistory objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param CurrencySearchModel $model
+     * @return Currency[] Returns an array of Currency objects
+     */
+    public function findBySearchModel(CurrencySearchModel $model)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('er')
+            ->select('er')
+            ->where('er.currency IN(:currencyIds)')
+            ->setParameter('currencyIds', $model->getCurrencyIds())
+            ->andWhere('er.effectiveDate >= :dateFrom')
+            ->setParameter('dateFrom', $model->getFormattedDateFrom())
+            ->andWhere('er.effectiveDate <= :dateTo')
+            ->setParameter('dateTo', $model->getFormattedDateTo())
+            ->orderBy('er.currency.code', 'ASC')
+            ->orderBy('er.effectiveDate', 'ASC')
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?ExchangeRateHistory

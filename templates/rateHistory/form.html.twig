@@ -1,11 +1,11 @@
-
-
-{{ form_start(form) }}
-{{ form_widget(form.currency, {'attr' : {
+{{ form_start(form, {'attr' : {'class': 'form-inline'}}) }}
+{{ form_widget(form.currencies, {'attr' : {
     'class' : 'selectpicker form-control',
     'data-style' : 'form-control',
     'data-live-search' : 'true',
     'data-actions-box' : 'true',
     'title' : 'Select currencies' }})
 }}
+{{ form_widget(form.dateFrom) }}
+{{ form_widget(form.dateTo) }}
 {{ form_end(form) }}

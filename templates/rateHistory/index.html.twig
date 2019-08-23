@@ -1,4 +1,34 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {% include 'rateHistory/form.html.twig' %}
+
+    {% if ratesHistory is defined %}
+
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <td>Waluta</td>
+                    <td>Data</td>
+                    <td>Kurs</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for rate in ratesHistory %}
+                <tr>
+                    <td>
+                        {{ rate.currency.code }}
+                    </td>
+                    <td>
+                        {{ rate.effectiveDate | date('Y-m-d') }}
+                    </td>
+                    <td>
+                        {{ rate.rate }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
 {% endblock %}
